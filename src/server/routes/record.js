@@ -23,4 +23,9 @@ recordRoutes.route("/user").get(async function (req, res) {
     });
 });
 
+// This section will help you get a list of all the documents.
+recordRoutes.route("/test").get(async function (req, res) {
+    res.status(200).send("Test success");
+});
+
 module.exports = recordRoutes
