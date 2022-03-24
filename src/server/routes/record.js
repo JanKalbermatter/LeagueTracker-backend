@@ -6,7 +6,6 @@ const dbo = require("../../db/conn");
 // We use it to define our routes.
 // The router will be added as a middleware and will take control of requests starting with path /listings.
 const recordRoutes = express.Router();
-console.log(process.env.ATLAS_URI);
 
 // This section will help you get a list of all the documents.
 recordRoutes.route("/user").get(async function (req, res) {
@@ -23,6 +22,9 @@ recordRoutes.route("/user").get(async function (req, res) {
                 res.json(result);
             }
         });
+    } else {
+        
+        res.json({Msg: "No DB Connection", Process: process.env.ATLAS_URI});
     }
 });
 
