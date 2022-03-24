@@ -1,7 +1,8 @@
 const express = require("express")
+var cors = require('cors')
 const app = express()
 
-// app.use(allowCrossDomain)
+app.use(cors())
 
 app.get("/test", (_req, res) =>  {
   res.status(200).send("{}")
