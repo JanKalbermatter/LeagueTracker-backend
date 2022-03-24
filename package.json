@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "node src/server/server.js",
-    "test": "jest src/test/*"
+    "test": "jest src/test/* --passWithNoTests"
   },
   "repository": {
     "type": "git",
