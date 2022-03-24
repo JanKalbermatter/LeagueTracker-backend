@@ -8,7 +8,7 @@ app.get("/test", (_req, res) =>  {
   res.status(200).send("{}")
 })
 
-app.get("/api/log", (_req, res) =>  {
+app.post("/api/log", (_req, res) =>  {
   res.status(200).send(JSON.stringify({"Success": true}))
 })
 module.exports = app;
