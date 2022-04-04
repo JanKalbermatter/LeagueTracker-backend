@@ -39,8 +39,12 @@ logRoutes.route("/api/v1/log/:logId").get(async function (req, res) {
 logRoutes.route("/api/v1/log/date/:start/:end").get(async function (req, res) {
     const dbConnect = dbo.getDb();
 
-    const start = req.params.start
-    const end = req.params.end
+    const start = parseInt(req.params.start) || 0
+    let end = parseInt(req.params.end) || 0
+    
+    if(end === 0) {
+        end = Date.now()
+    } 
 
     if(dbConnect) {
         dbConnect
