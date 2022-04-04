@@ -23,7 +23,7 @@ recordRoutes.route("/api/v1/user").get(async function (req, res) {
             }
         });
     } else {
-        res.json({Msg: "No DB Connection", Process: process.env.ATLAS_URI});
+        res.json({Msg: "No DB Connection"});
     }
 });
 
