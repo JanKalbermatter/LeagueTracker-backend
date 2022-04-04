@@ -15,6 +15,10 @@ app.use(log);
 
 // get driver connection
 const dbo = require("../db/conn");
+
+app.get("/test",  (req, res) => {
+  res.status(200).send("Working just fine");
+})
  
 app.listen(port, () => {
   // perform a database connection when server starts

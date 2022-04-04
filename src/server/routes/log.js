@@ -27,4 +27,4 @@ logRoutes.route("/api/v1/log").get(async function (req, res) {
     }
 });
 
-module.exports = recordRoutes
+module.exports = logRoutes
