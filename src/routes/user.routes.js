@@ -14,7 +14,7 @@ module.exports = function(app) {
     controller.isModerator
     );
   app.get(
-    "/api/v1/user/isAdmon",
+    "/api/v1/user/isAdmin",
     [authJwt.verifyToken, authJwt.isAdmin],
     controller.isAdmin
   );
