@@ -1,71 +1,27 @@
 const express = require("express");
 const cors = require("cors");
-const app = express();
-require("dotenv").config();
-const connectionString = process.env.ATLAS_URI;
 
-app.use(cors());
-// parse requests of content-type - application/json
-app.use(express.json());
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(express.urlencoded({ extended: true }));
+function createServer() {
+  const app = express();
 
-const db = require("./models");
-const Role = db.role;
-db.mongoose
-  .connect(connectionString, {
-    useNewUrlParser: true,
-    useUnifiedTopology: true
-})
-  .then(() => {
-    console.log("Successfully connect to MongoDB.");
-    initial();
-})
-  .catch(err => {
-    console.error("Connection error", err);
-    process.exit();
-});
+  app.use(cors());
+  // parse requests of content-type - application/json
+  app.use(express.json());
+  // parse requests of content-type - application/x-www-form-urlencoded
+  app.use(express.urlencoded({ extended: true }));
 
-// simple route
-app.get("/", (req, res) => {
-  res.json({ message: "Welcome to Jan's application." });
-});
+  // simple route
+  app.get("/", (req, res) => {
+    res.json({ message: "Welcome to Jan's application." });
+  });
+  
+  // routes
+  require('./routes/auth.routes')(app);
+  require('./routes/user.routes')(app);
+  require('./routes/log.routes')(app);
 
-// routes
-require('./routes/auth.routes')(app);
-require('./routes/user.routes')(app);
-require('./routes/log.routes')(app);
+  return app;
+}
 
-// set port, listen for requests
-module.exports = app
 
-function initial() {
-    Role.estimatedDocumentCount((err, count) => {
-      if (!err && count === 0) {
-        new Role({
-          name: "user"
-        }).save(err => {
-          if (err) {
-            console.log("error", err);
-          }
-          console.log("added 'user' to roles collection");
-        });
-        new Role({
-          name: "moderator"
-        }).save(err => {
-          if (err) {
-            console.log("error", err);
-          }
-          console.log("added 'moderator' to roles collection");
-        });
-        new Role({
-          name: "admin"
-        }).save(err => {
-          if (err) {
-            console.log("error", err);
-          }
-          console.log("added 'admin' to roles collection");
-        });
-      }
-    });
-  }
+module.exports = createServer
