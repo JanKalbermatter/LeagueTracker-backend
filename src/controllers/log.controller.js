@@ -59,6 +59,6 @@ exports.addLog = (req, res) => {
             res.status(500).send({ message: err });
             return;
         }
-        res.send({ message: "Log was created successfully!" });
+        res.send({ message: "Log was created successfully!", log});
     });
 }

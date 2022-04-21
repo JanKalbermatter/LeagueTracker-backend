@@ -4,8 +4,8 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "start": "node src/server.js",
-    "test": "jest src/test/* --passWithNoTests"
+    "start": "node src/index.js",
+    "test": "jest"
   },
   "repository": {
     "type": "git",
@@ -17,6 +17,12 @@
     "url": "https://github.com/JanKalbermatter/LeagueTracker-backend/issues"
   },
   "homepage": "https://github.com/JanKalbermatter/LeagueTracker-backend#readme",
+  "jest": {
+    "testEnvironment": "node",
+    "coveragePathIgnorePatterns": [
+      "/node_modules"
+    ]
+  },
   "dependencies": {
     "bcryptjs": "^2.4.3",
     "cors": "^2.8.5",
