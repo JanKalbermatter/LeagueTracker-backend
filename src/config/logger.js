@@ -10,14 +10,22 @@ const logger = createLogger({
         }),
         new transports.File({
             filename: "combined.log"
-        }),
+        })
+    ]
+})
+
+if(process.env.NODE_ENV === 'production') {
+    logger.add(
         new transports.MongoDB({
             db: process.env.ATLAS_URI_BACKEND,
             options: { useUnifiedTopology: true },
             level: 'info',
             collection: 'logInfo',
             format: format.combine(format.timestamp(), format.json())
-        }),
+        })
+    )
+    
+    logger.add(
         new transports.MongoDB({
             db: process.env.ATLAS_URI_BACKEND,
             options: { useUnifiedTopology: true },
@@ -25,7 +33,7 @@ const logger = createLogger({
             collection: 'logError',
             format: format.combine(format.timestamp(), format.json())
         })
-    ]
-})
+    )
+}
 
 module.exports = logger
