@@ -1,7 +1,8 @@
 const db = require("../models");
 const { ObjectId } = require("mongodb");
+const logger = require("../config/logger");
 const Log = db.log;
-exports.getAllLogs = (req, res) => {
+exports.getAllLogs = (_req, res) => {
     Log.find({
 
     })

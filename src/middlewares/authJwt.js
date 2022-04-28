@@ -3,7 +3,8 @@ const secret = process.env.JWT_SECRET
 const db = require("../models");
 const User = db.user;
 const Role = db.role;
-verifyToken = (req, res, next) => {
+
+const verifyToken = (req, res, next) => {
   let token = req.headers["x-access-token"];
   if (!token) {
     return res.status(403).send({ message: "No token provided!" });
@@ -16,7 +17,8 @@ verifyToken = (req, res, next) => {
     next();
   });
 };
-isAdmin = (req, res, next) => {
+
+const isAdmin = (req, res, next) => {
   User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
@@ -26,24 +28,24 @@ isAdmin = (req, res, next) => {
       {
         _id: { $in: user.roles }
       },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
+      (roleError, roles) => {
+        if (roleError) {
+          res.status(500).send({ message: roleError });
           return;
         }
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "admin") {
+        for (const element of roles) {
+          if (element.name === "admin") {
             next();
             return;
           }
         }
         res.status(403).send({ message: "Require Admin Role!" });
-        return;
       }
     );
   });
 };
-isModerator = (req, res, next) => {
+
+const isModerator = (req, res, next) => {
   User.findById(req.userId).exec((err, user) => {
     if (err) {
       res.status(500).send({ message: err });
@@ -53,23 +55,23 @@ isModerator = (req, res, next) => {
       {
         _id: { $in: user.roles }
       },
-      (err, roles) => {
-        if (err) {
-          res.status(500).send({ message: err });
+      (roleError, roles) => {
+        if (roleError) {
+          res.status(500).send({ message: roleError });
           return;
         }
-        for (let i = 0; i < roles.length; i++) {
-          if (roles[i].name === "moderator") {
+        for (const element of roles) {
+          if (element.name === "moderator") {
             next();
             return;
           }
         }
         res.status(403).send({ message: "Require Moderator Role!" });
-        return;
       }
     );
   });
 };
+
 const authJwt = {
   verifyToken,
   isAdmin,
