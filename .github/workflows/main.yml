@@ -32,6 +32,7 @@ jobs:
       - name: Run test
         env: 
           ATLAS_URI_TEST: ${{secrets.ATLAS_URI_TEST}}
+          ATLAS_URI_BACKEND: ${{secrets.ATLAS_URI_BACKEND}}
         run: npm test
   deploy:
     runs-on: ubuntu-latest
