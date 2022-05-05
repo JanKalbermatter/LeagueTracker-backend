@@ -1,32 +1,36 @@
 const db = require("../models");
 const { ObjectId } = require("mongodb");
-const logger = require("../config/logger");
 const Log = db.log;
 exports.getAllLogs = (_req, res) => {
-    Log.find({
-
-    })
-    .exec((err, result) => {
-        if (err) {
-            res.status(400).send({ message: err });
-        } else {
-            res.json(result);
+    return Log.find(
+        {},
+        (err, result) => {
+            if (err) {
+                return res.status(500).send({ message: err });
+            } else {
+                return res.json(result);
+            }
         }
-    })
+    )
 }
 exports.getLogById = (req, res) => {
     const logId = req.params.logId
-    Log.findOne({
+    const filter = {
         _id: ObjectId(logId)
-    })
-    .exec((err, result) => {
-        if (err) {
-            res.status(400).send({ message: err });
-        } else {
-            res.json(result);
+    }
+
+    return Log.findOne(
+        filter, 
+        (err, result) => {
+            if (err) {
+                return res.status(500).send({ message: err });
+            } else {
+                return res.json(result);
+            }
         }
-    })
+    )
 }
+
 exports.getLogByTimestamp = (req, res) => {
     const start = parseInt(req.params.start) || 0
     let end = parseInt(req.params.end) || 0
@@ -34,18 +38,23 @@ exports.getLogByTimestamp = (req, res) => {
     if(end === 0) {
         end = Date.now()
     } 
-    const filter = { entryDate: {$gte: start, $lte: end}}
-    Log.find(
-        filter
-    )
-    .exec((err, result) => {
-        if (err) {
-            res.status(400).send({ message: err });
-        } else {
-            res.json(result);
+    const filter = { 
+        entryDate: {$gte: start, $lte: end}
+    }
+
+    return Log.find(
+        filter, 
+        (err, result) => {
+            if (err) {
+                return res.status(500).send({ message: err });
+            } else {
+                return res.json(result);
+            }
         }
-    })
+
+    )
 }
+
 exports.addLog = (req, res) => {
     const logEntry = req.body
     const log = new Log({
@@ -55,11 +64,10 @@ exports.addLog = (req, res) => {
       extraInfo: logEntry.extraInfo,
       logWithDate: logEntry.logWithDate
     });
-    log.save(err => {
+    return log.save(err => {
         if (err) {
-            res.status(500).send({ message: err });
-            return;
+            return res.status(500).send({ message: err });
         }
-        res.send({ message: "Log was created successfully!", log});
+        return res.send(log);
     });
 }

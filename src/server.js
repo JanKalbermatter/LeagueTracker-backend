@@ -16,7 +16,7 @@ function createServer() {
 
   // simple route
   app.get("/", (_req, res) => {
-    res.json({ message: "Welcome to Jan's application." });
+    res.status(200).json({ message: "Welcome to Jan's application." });
   });
   
   // routes
@@ -24,9 +24,7 @@ function createServer() {
   require('./routes/user.routes')(app);
   require('./routes/log.routes')(app);
 
-  app.use(function(req, res, _next) {
-    res.status(404).send({ message: `Cannot ${req.method} ${req.originalUrl}` });
-  });
+  app.use(logError);
 
   return app;
 }

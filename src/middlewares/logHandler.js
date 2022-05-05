@@ -33,9 +33,14 @@ const logResponse = (req, res, next) => {
 
     next()
 }
+
+const logError = function(req, res, _next) {
+    res.status(404).send({ message: `Cannot ${req.method} ${req.originalUrl}` });
+}
   
 const logHandler = {
     logRequest,
-    logResponse
+    logResponse,
+    logError
 };
 module.exports = logHandler;
