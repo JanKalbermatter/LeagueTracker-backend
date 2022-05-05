@@ -48,9 +48,9 @@ test("POST /api/v1/log", async () => {
         .send(testLog)
         .expect(200)
         .then(response => {
-            delete response.body.log.__v
-            delete response.body.log._id
-            expect(response.body.log).toStrictEqual(testLog)
+            delete response.body.__v
+            delete response.body._id
+            expect(response.body).toStrictEqual(testLog)
         })
 })
 
