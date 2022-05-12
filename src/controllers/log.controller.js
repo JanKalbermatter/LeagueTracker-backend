@@ -4,13 +4,7 @@ const Log = db.log;
 exports.getAllLogs = (_req, res) => {
     return Log.find(
         {},
-        (err, result) => {
-            if (err) {
-                return res.status(500).send({ message: err });
-            } else {
-                return res.json(result);
-            }
-        }
+        (err, result) => returnResult(err, result, res)
     )
 }
 exports.getLogById = (req, res) => {
@@ -21,13 +15,7 @@ exports.getLogById = (req, res) => {
 
     return Log.findOne(
         filter, 
-        (err, result) => {
-            if (err) {
-                return res.status(500).send({ message: err });
-            } else {
-                return res.json(result);
-            }
-        }
+        (err, result) => returnResult(err, result, res)
     )
 }
 
@@ -70,4 +58,12 @@ exports.addLog = (req, res) => {
         }
         return res.send(log);
     });
+}
+
+function returnResult(error, result, res){
+    if (error) {
+        return res.status(500).send({ message: err });
+    } else {
+        return res.json(result);
+    }
 }

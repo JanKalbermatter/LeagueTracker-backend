@@ -10,7 +10,8 @@ exports.signup = (req, res) => {
     email: req.body.email,
     password: bcrypt.hashSync(req.body.password, 8)
   });
-  return user.save((err, user) => {
+  
+  return user.save((err, savedUser) => {
     if (err) {
       res.status(500).send({ message: err });
       return;
@@ -25,13 +26,8 @@ exports.signup = (req, res) => {
             res.status(500).send({ message: roleError });
             return;
           }
-          user.roles = roles.map(role => role._id);
-          return user.save(userError => {
-            if (userError) {
-              return res.status(500).send({ message: userError });
-            }
-            return res.send({ message: "User was registered successfully!" });
-          });
+          savedUser.roles = roles.map(role => role._id);
+          return savedUser.save(userError => isUserRegistered(userError, res));
         }
       );
     } else {
@@ -39,17 +35,13 @@ exports.signup = (req, res) => {
         if (roleError) {
           return res.status(500).send({ message: roleError });
         }
-        user.roles = [role._id];
-        return user.save(userError => {
-          if (userError) {
-            return res.status(500).send({ message: userError });
-          }
-          return res.send({ message: "User was registered successfully!" });
-        });
+        savedUser.roles = [role._id];
+        return savedUser.save(userError => isUserRegistered(userError, res));
       });
     }
   });
 };
+
 exports.signin = (req, res) => {
   return User.findOne({
     username: req.body.username
@@ -95,3 +87,10 @@ exports.signin = (req, res) => {
       });
     });
 };
+
+function isUserRegistered(error, res) {
+  if (error) {
+    return res.status(500).send({ message: error });
+  }
+  return res.send({ message: "User was registered successfully!" });
+}

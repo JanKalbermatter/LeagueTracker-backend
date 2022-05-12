@@ -1,9 +1,9 @@
-exports.loggedIn = (req, res) => {
+exports.loggedIn = (_req, res) => {
     return res.status(200).send(true);
 };
-exports.isAdmin = (req, res) => {
+exports.isAdmin = (_req, res) => {
     return res.status(200).send(true);
 };
-exports.isModerator = (req, res) => {
+exports.isModerator = (_req, res) => {
     return res.status(200).send(true);
 };
