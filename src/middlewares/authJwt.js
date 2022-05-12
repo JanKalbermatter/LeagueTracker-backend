@@ -39,7 +39,7 @@ const isAdmin = (req, res, next) => {
             return;
           }
         }
-        res.status(403).send({ message: "Require Admin Role!" });
+        res.status(403).send({ admin: false, message: "Require Admin Role!" });
       }
     );
   });
@@ -66,7 +66,7 @@ const isModerator = (req, res, next) => {
             return;
           }
         }
-        res.status(403).send({ message: "Require Moderator Role!" });
+        res.status(403).send({ moderator: false, message: "Require Moderator Role!" });
       }
     );
   });
