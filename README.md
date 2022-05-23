@@ -1,2 +1,2 @@
 # LeagueTracker-backend
-Backend for LeagueTracker
+Backend for LeagueTracker WEBLAB Project
